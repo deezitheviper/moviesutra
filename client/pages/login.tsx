@@ -15,12 +15,12 @@ const Login = () => {
 
   return (
    <div className="relative h-full w-full bg-[url('/images/hero.jpeg')] bg-no-repeat bg-center bg-fixed bg-cover">
-        <div className="bg-black w-full h-full lg:bg-opacity-60">
+        <div className="bg-black w-full h-full bg-opacity-60">
             <div className="px-12 py-5">
                 <img src="/images/logo.png" alt="Logo" className="h-12" />
             </div>
-            <div className="flex justify-center">
-                <div className="bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
+            <div className="flex justify-center px-3">
+                <div className="bg-black bg-opacity-70 md:px-16 py-16 px-5 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
                     <h2 className="text-white text-center text-4xl mb-8 font-semibold">
                         {variant === 'login' ? 'Login' : 'Create an account'}
                     </h2>
@@ -34,7 +34,7 @@ const Login = () => {
                             value={username}
                             />
                              )}
-                             
+
                             <Input 
                             label="Email" 
                             onChange={(e:any) => setEmail(e.target.value)} 
