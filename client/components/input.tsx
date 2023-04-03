@@ -20,6 +20,7 @@ const Input: React.FC<InputProps> = ({
         <input
             id={id}
             value={value}
+            onChange={onChange}
             type={type}
             className="block rounded-md px-6 pt-6 pb-1 w-full text-white bg-neutral-700 outline-none peer"
             placeholder=" "

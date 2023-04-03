@@ -15,7 +15,7 @@ model User {
   name String 
   image String?
   email String @unique
-  emailVerified DateTime?
+  emailVerified Boolean @default(false)
   hashedPassword String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -69,5 +69,5 @@ model Movie {
   thumbnailUrl String
   genre String
   duration String
-  
+
 }

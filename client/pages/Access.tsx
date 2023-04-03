@@ -1,7 +1,16 @@
-import Input from "@/components/input"
-import { useCallback, useState } from "react"
+import Input from "@/components/input";
+import { useCallback, useState } from "react";
+import axios from "axios";
+import {signIn} from 'next-auth/react'
+import { useRouter } from "next/router";
 
-const Login = () => {
+import {FcGoogle} from 'react-icons/fc';
+import {FaGithub} from 'react-icons/fa';
+
+
+const Access = () => {
+
+  const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -11,6 +20,29 @@ const Login = () => {
   const toggle = useCallback(() => {
     setVariant(current => current === 'login' ? 'register' : 'login')
   }, [])
+
+  const login = useCallback(async () => {
+    try{
+      await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: '/'
+      })
+      router.push('/')
+    } catch (err){
+      console.log(err)
+    }
+  },[])
+
+  const register = useCallback(async () => {
+    try{
+        await axios.post('/api/register', {email, username, password})
+        login()
+    }catch (err){
+        console.log(err)
+    }
+  },[email, username, password, login])
 
 
   return (
@@ -38,23 +70,40 @@ const Login = () => {
                             <Input 
                             label="Email" 
                             onChange={(e:any) => setEmail(e.target.value)} 
-                            id="Omail"
+                            id="email"
                             type="email"
                             value={email}
                             />
                         
                             <Input 
                             label="Password" 
-                            onChange={(e:any) => setUsername(e.target.value)} 
+                            onChange={(e:any) => setPassword(e.target.value)} 
                             id="password"
                             type="password"
                             value={password}
                             />
                     </div>
-                    <button className="bg-red-600 py-3 text-white text-bold rounded-md w-full mt-10 hover:bg-red-700 transition" >
+                    <button  onClick={variant === 'login' ? login : register} className="bg-red-600 py-3 text-white text-bold rounded-md w-full mt-10 hover:bg-red-700 transition" >
                     {variant === 'login' ? 'Login' : 'Create an account'}
                     </button>
-
+                    <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+                        <div className="w-10 h-10 bg-white 
+                        rounded-full flex 
+                        items-center justify-center 
+                        cursor-pointer hover:opacity-80
+                        transition">
+                          <FcGoogle/>
+                        </div>
+                        <div 
+                        onClick={() => signIn('github', {callbackUrl: '/'})}
+                        className="w-10 h-10 bg-white 
+                        rounded-full flex  
+                        items-center justify-center 
+                        cursor-pointer hover:opacity-80
+                        transition">
+                          <FaGithub/>
+                        </div>
+                    </div>
                     <p className="text-neutral-500 mt-12">
                     {variant === 'login' ? 
                        <>
@@ -73,4 +122,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Access
